@@ -1,0 +1,11 @@
+.container {
+    margin-top: 50px; 
+    padding:2%;
+    border : 1px solid #6f42c1; 
+    border-radius: 10px;
+    width: 60%;
+}
+
+mat-form-field {
+    width: 75%;
+  }

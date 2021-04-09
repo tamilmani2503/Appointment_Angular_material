@@ -1,0 +1,14 @@
+.container {
+    margin-top: 30px;
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+.dashboard-card {
+    width: 600px;
+}
+
+.dashboard-table-card {
+    width: 800px;
+    padding-left: 10px;
+}

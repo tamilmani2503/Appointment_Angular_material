@@ -1,0 +1,32 @@
+<app-header></app-header>
+<div class="container">
+
+    <mat-card *ngIf = "loginFailure">Incorrect Username/Password</mat-card>
+    <br/>
+    <form (ngSubmit)="onSubmit()" #loginForm=ngForm>
+        <span class="material-icons">person</span>
+        <mat-form-field>
+            <mat-label>Username</mat-label>
+            <input type="text" matInput required 
+            [(ngModel)] = "user.userName"
+            id="userName" name="userName" ngModel
+            #userNameField = "ngModel">
+            <mat-error *ngIf = "!userNameField.valid && !userNameField.dirty && userNameField.touched">
+                Username is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+        <span class="primary material-icons">password</span>
+        <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input type="password" matInput required
+             [(ngModel)]="user.password" name="password"
+            ngModel id="password" #passwordField="ngModel">
+            <mat-error *ngIf = "!passwordField.valid && !passwordField.dirty && passwordField.touched">
+                Password is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+        <button mat-stroked-button color="primary" [disabled] = "!loginForm.valid">Sign In</button>
+       
+    </form>
+    <button mat-icon-button class="align-right" routerLink = "/register">New User? Register here <mat-icon>open_in_new</mat-icon></button>
+</div>

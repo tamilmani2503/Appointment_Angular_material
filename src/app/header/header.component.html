@@ -1,0 +1,21 @@
+<mat-toolbar color="primary">
+    <span *ngIf="!authorized">SIXA Bank</span>
+
+    <button  mat-fab color="warn" style="margin-left:0px !important " *ngIf="authorized" [routerLink]="['/member/home']">
+        <mat-icon>home</mat-icon>
+    </button>
+
+    <div class="menu">
+        <span>
+            <a [routerLink]="['/member/home']" *ngIf="authorized">Appointments </a>&nbsp;
+        </span>
+        <span>
+            <a [routerLink]="['/member/profile']" *ngIf="authorized">Profile </a>&nbsp;
+        </span>
+    </div>
+    <span>
+        <button mat-raised-button color="warn" (click)=onLogout() *ngIf="authorized" [routerLink]="['']">Logout
+        </button>
+    </span>
+
+</mat-toolbar>

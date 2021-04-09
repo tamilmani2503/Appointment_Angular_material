@@ -1,0 +1,228 @@
+<app-header></app-header>
+<div class="container">
+    <form #registrationForm="ngForm">
+    <mat-vertical-stepper #stepper>
+        <mat-step>
+            <form #personalDetails ="ngForm">
+                <ng-template matStepLabel>Your Personal Details</ng-template>
+                <mat-form-field>
+                    <mat-label>Name</mat-label>
+                    <input type="text" matInput required [(ngModel)]="user.name" id="name" name="name" ngModel
+                        pattern="[A-Za-z ]+" #nameField="ngModel" placeholder="First Name Last Name">
+                    <mat-error *ngIf="!nameField.valid && !nameField.dirty && nameField.touched">
+                        Name is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Display Name</mat-label>
+                    <input type="text" matInput [(ngModel)]="user.displayName" id="displayName" name="displayName"
+                        ngModel pattern="[A-Za-z ]+" #nameField="ngModel">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Date of Birth</mat-label>
+                    <input matInput required [(ngModel)]="user.dateOfBirth" id="dateOfBirth" name="dateOfBirth" ngModel
+                        #dateOfBirthField="ngModel" placeholder="Choose a date" [matDatepicker]="picker"
+                        [max]="date | date:'yyyy-MM-dd'" (dateInput)="checkCitizenStatus( $event)" 
+                        >
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <mat-error *ngIf="!dateOfBirthField.valid && !dateOfBirthField.dirty 
+                    && dateOfBirthField.touched">
+                        Date of Birth is <strong>required</strong>
+                    </mat-error>
+                    <mat-error *ngIf="!dateOfBirthField.valid && dateOfBirthField.dirty ">
+                        Date of Birth is <strong>not valid</strong>
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Citizen Status</mat-label>
+                    <input matInput [(ngModel)]="user.citizenstatus" id="citizenstatus" name="citizenstatus" ngModel
+                        readonly value="{{citizenStatus}}">
+                </mat-form-field>
+                <br /> <br />
+                <mat-radio-group aria-label="Select an option" [(ngModel)]="user.gender" name="gender" required
+                    #genderField="ngModel" color="primary">
+                    <mat-radio-button value="M">Male</mat-radio-button> &nbsp;&nbsp;
+                    <mat-radio-button value="F">Female</mat-radio-button>
+                </mat-radio-group>
+                <br /><br />
+                <mat-form-field appearance="fill">
+                    <mat-label>Martial Status</mat-label>
+                    <mat-select [(ngModel)]="user.martialStatus" name="martialStatus" required #statusField="ngModel"
+                        color="primary">
+                        <mat-option *ngFor="let mstatus of martialStatus" [value]="mstatus">
+                            {{mstatus}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="!statusField.valid && statusField.touched">
+                        Martial Status is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Social Security Number</mat-label>
+                    <input matInput required [(ngModel)]="user.ssnnumber" id="ssnnumber" name="ssnnumber" ngModel
+                         #ssnnumberField="ngModel">
+                    <mat-error *ngIf="!ssnnumberField.valid && ssnnumberField.touched && !ssnnumberField.dirty">
+                        Social Security Number is <strong>required</strong>
+                    </mat-error>
+                    <mat-error *ngIf="!ssnnumberField.valid && ssnnumberField.dirty">
+                        Social Security Number is <strong>not valid</strong>
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Email</mat-label>
+                    <input matInput required email [(ngModel)]="user.emailAddress" id="emailAddress" name="emailAddress"
+                        ngModel #emailAddressField="ngModel" placeholder="user@domain.com">
+                    <mat-error
+                        *ngIf="!emailAddressField.valid && emailAddressField.touched && !emailAddressField.dirty">
+                        Email is <strong>required</strong>
+                    </mat-error>
+                    <mat-error *ngIf="!emailAddressField.valid && emailAddressField.dirty">
+                        Email is <strong>not valid</strong>
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Phone Number</mat-label>
+                    <input matInput required [(ngModel)]="user.phoneNumber" id="phoneNumber" name="phoneNumber" ngModel
+                        minlength="10" maxlength="10" #phoneNumberField="ngModel">
+                    <mat-error *ngIf="!phoneNumberField.valid && phoneNumberField.touched && !phoneNumberField.dirty">
+                        Phone Number is <strong>required</strong>
+                    </mat-error>
+                    <mat-error *ngIf="!phoneNumberField.valid && phoneNumberField.dirty">
+                        Phone Number is <strong>not valid</strong>
+                    </mat-error>
+                </mat-form-field>
+                <br /><br />
+                <mat-form-field appearance="fill">
+                    <mat-label>Guardian Type</mat-label>
+                    <mat-select [(ngModel)]="user.guardianType" name="guardianType" required
+                        #guardianTypeField="ngModel" color="primary">
+                        <mat-option *ngFor="let type of guardianType" [value]="type">
+                            {{type}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="!guardianTypeField.valid && guardianTypeField.touched">
+                        Guardian Type is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Guardian Name</mat-label>
+                    <input type="text" matInput required [(ngModel)]="user.guardianName" id="guardianName" name="guardianName" ngModel
+                        pattern="[A-Za-z ]+" #guardianNameField="ngModel" placeholder="First Name Last Name">
+                    <mat-error *ngIf="!guardianNameField.valid && !guardianNameField.dirty && guardianNameField.touched">
+                        Guardian Name is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Blood Group</mat-label>
+                    <input type="text" matInput required [(ngModel)]="user.bloodType" id="bloodGroup" name="bloodGroup" ngModel
+                         #bloodGroupField="ngModel" placeholder="AB Positive">
+                    <mat-error *ngIf="!bloodGroupField.valid && !bloodGroupField.dirty && bloodGroupField.touched">
+                        Blood Group is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+                <div>
+                    <button mat-stroked-button color="primary" matStepperNext [disabled] = "!personalDetails.valid" >Next</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step>
+            <form #addressDetails="ngForm">
+                <ng-template matStepLabel>Your Residency</ng-template>
+                <br>
+                <mat-form-field appearance="fill">
+                    <mat-label>Country of Citizenship</mat-label>
+                    <mat-select [(ngModel)]="user.citizenship" name="citizenship" required #citizenshipField="ngModel"
+                        color="primary">
+                        <mat-option *ngFor="let country of countries" [value]="country.countryCode">
+                            {{country.countryDescription}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="!citizenshipField.valid && citizenshipField.touched">
+                        Country of Citizenship is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Address</mat-label>
+                    <textarea matInput required type="text" matInput required [(ngModel)]="user.address" id="address" name="address" ngModel
+                    #addressField="ngModel" placeholder="Ex.4 Calloway house"></textarea>
+                    <mat-error *ngIf="!addressField.valid && !addressField.dirty && addressField.touched">
+                        Address is <strong>required</strong>
+                    </mat-error>
+                  </mat-form-field>
+                  <ng-template matStepLabel>Your Residency</ng-template>
+                <mat-form-field appearance="fill">
+                    <mat-label>Country</mat-label>
+                    <mat-select [(ngModel)]="user.country" name="country" required #countryField="ngModel"
+                        color="primary" (selectionChange) = "getStateByCountry($event)">
+                        <mat-option *ngFor="let country of countries" [value]="country.countryCode">
+                            {{country.countryDescription}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="!countryField.valid && countryField.touched">
+                        Country is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="fill">
+                    <mat-label>States</mat-label>
+                    <mat-select [(ngModel)]="user.state" name="state" required #stateField="ngModel"
+                        color="primary">
+                        <mat-option *ngFor="let state of states" [value]="state.stateCode">
+                            {{state.stateDescription}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="!stateField.valid && stateField.touched">
+                        State is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="fill">
+                    <mat-label>Timezones</mat-label>
+                    <mat-select [(ngModel)]="user.timezone" name="timezone" required #timezoneField="ngModel"
+                        color="primary">
+                        <mat-option *ngFor="let timezone of timezones" [value]="timezone">
+                            {{timezone}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="!timezoneField.valid && timezoneField.touched">
+                        Timezones is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+                  <div>
+                    <button mat-stroked-button color="warn" matStepperPrevious>Back</button> &nbsp;&nbsp;
+                    <button mat-stroked-button color="primary" matStepperNext [disabled] = "!addressDetails.valid">Next</button>
+                 </div>
+            </form>
+        </mat-step>
+        <mat-step>
+            <form #credentialForm="ngForm"  (ngSubmit)="onSubmit()">
+                <ng-template matStepLabel>Create Your Account</ng-template>
+                <mat-form-field>
+                <mat-label>Username</mat-label>
+                    <input type="text" matInput required 
+                    [(ngModel)] = "user.userName"
+                    id="userName" name="userName" ngModel
+                    #userNameField = "ngModel">
+                    <mat-error *ngIf = "!userNameField.valid && !userNameField.dirty && userNameField.touched">
+                        Username is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+                
+                <mat-form-field>
+                    <mat-label>Password</mat-label>
+                    <input type="password" matInput required
+                     [(ngModel)]="user.password" name="password"
+                    ngModel id="password" #passwordField="ngModel">
+                    <mat-error *ngIf = "!passwordField.valid && !passwordField.dirty && passwordField.touched">
+                        Password is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+                <div>                  
+                    <button mat-stroked-button color="primary" matStepperNext [disabled] = "!credentialForm.valid">Submit</button>
+                 </div>
+            </form>
+        </mat-step>
+    </mat-vertical-stepper>
+    </form>
+</div>
