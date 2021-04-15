@@ -25,6 +25,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { AddAppointmentsComponent } from './appointments/add-appointments/add-appointments.component';
 import { AuthService } from './sevice/auth.service';
 import { AppointmentService } from './service/appointment.service';
+import { AlertComponent } from './shared/alert/alert.component';
+import { PlaceholderDirective } from './shared/placeholder.directive';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,9 @@ import { AppointmentService } from './service/appointment.service';
     RegistrationComponent,
     AppointmentsComponent,
     ProfileComponent,
-    AddAppointmentsComponent
+    AddAppointmentsComponent,
+    AlertComponent,
+    PlaceholderDirective
     
   ],
   imports: [

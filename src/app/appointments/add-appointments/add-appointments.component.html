@@ -1,74 +1,100 @@
 <app-header></app-header>
 <div class="container">
-        <form (ngSubmit)="onSubmit()" #appointmentForm=ngForm>
-            <mat-form-field>
-                <mat-label>Title</mat-label>
-                <input type="text" matInput required [(ngModel)]="appointment.title" id="title" name="title" ngModel
-                    #titleField="ngModel" placeholder="Ex. Create a new account">
-                <mat-error *ngIf="!titleField.valid && !titleField.dirty && titleField.touched">
-                    Title is <strong>required</strong>
-                </mat-error>
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Location</mat-label>
-                <input type="text" matInput required [(ngModel)]="appointment.location" id="location" name="location" ngModel
-                    #locationField="ngModel" placeholder="Ex. Chennai">
-                <mat-error *ngIf="!locationField.valid && !locationField.dirty && locationField.touched">
-                    Location is <strong>required</strong>
-                </mat-error>
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Appointment Date</mat-label>
-                <input matInput required [(ngModel)]="appointment.appointmentDate" id="appointmentDate" name="appointmentDate" ngModel
-                    #appointmentDateField="ngModel" placeholder="Choose a date" [matDatepicker]="picker"
-                    [min]="date | date:'yyyy-MM-dd'" >
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-                <mat-error *ngIf="!appointmentDateField.valid && !appointmentDateField.dirty 
+
+    <!-- <app-alert [message]="successmessage" *ngIf="successmessage" (close)="onHandleSucess()"></app-alert> -->
+    <ng-template appPlaceholder></ng-template>
+    <form (ngSubmit)="onSubmit()" #appointmentForm=ngForm>
+        <mat-form-field>
+            <mat-label>Title</mat-label>
+            <input type="text" matInput required [(ngModel)]="appointment.title" id="title" name="title" ngModel
+                #titleField="ngModel" placeholder="Ex. Create a new account">
+            <mat-error *ngIf="!titleField.valid && !titleField.dirty && titleField.touched">
+                Title is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Location</mat-label>
+            <input type="text" matInput required [(ngModel)]="appointment.location" id="location" name="location"
+                ngModel #locationField="ngModel" placeholder="Ex. Chennai">
+            <mat-error *ngIf="!locationField.valid && !locationField.dirty && locationField.touched">
+                Location is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Appointment Date</mat-label>
+            <input matInput required [(ngModel)]="appointment.appointmentDate" id="appointmentDate"
+                name="appointmentDate" ngModel #appointmentDateField="ngModel" placeholder="Choose a date"
+                [matDatepicker]="picker" [min]="date | date:'yyyy-MM-dd'">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="!appointmentDateField.valid && !appointmentDateField.dirty 
                 && appointmentDateField.touched">
-                    Appointment Date is <strong>required</strong>
-                </mat-error>
-                <mat-error *ngIf="!appointmentDateField.valid && appointmentDateField.dirty ">
-                    Appointment Date is <strong>not valid</strong>
-                </mat-error>
-            </mat-form-field>
-            <br /><br />
-                <mat-form-field appearance="fill">
-                    <mat-label>Appointment Type</mat-label>
-                    <mat-select [(ngModel)]="appointment.appointmentType" name="appointmentType" required #appointmentTypeField="ngModel"
-                        color="primary">
-                        <mat-option *ngFor="let type of appointmentType" [value]="type">
-                            {{type}}
-                        </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="!appointmentTypeField.valid && appointmentTypeField.touched">
-                        Appointment Type is <strong>required</strong>
-                    </mat-error>
-                </mat-form-field>
-                <mat-form-field appearance="fill">
-                    <mat-label>Time Zone</mat-label>
-                    <mat-select [(ngModel)]="appointment.timezone" name="timezone" required #tzoneField="ngModel"
-                        color="primary">
-                        <mat-option *ngFor="let zone of timezones" [value]="zone">
-                            {{zone}}
-                        </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="!tzoneField.valid && tzoneField.touched">
-                        Time Zone is <strong>required</strong>
-                    </mat-error>
-                </mat-form-field>
+                Appointment Date is <strong>required</strong>
+            </mat-error>
+            <mat-error *ngIf="!appointmentDateField.valid && appointmentDateField.dirty ">
+                Appointment Date is <strong>not valid</strong>
+            </mat-error>
+        </mat-form-field>
+        <br /><br />
+        <mat-form-field>
+            <mat-label>Appointment Start Time</mat-label>
+            <input type="time" matInput required [(ngModel)]="appointment.startTime" id="startTime" name="startTime" ngModel
+                #startTimeField="ngModel">
+            <mat-error *ngIf="!startTimeField.valid && !startTimeField.dirty && startTimeField.touched">
+                Appointment Start Time is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
 
-                <mat-form-field>
-                    <mat-label>Comments</mat-label>
-                    <textarea matInput required type="text" matInput required [(ngModel)]="appointment.comments" id="comments" name="comments" ngModel
-                    #commentsField="ngModel" ></textarea>
-                    <mat-error *ngIf="!commentsField.valid && !commentsField.dirty && commentsField.touched">
-                        Comment is <strong>required</strong>
-                    </mat-error>
-                  </mat-form-field>
+        <mat-form-field>
+            <mat-label>Appointment End Time</mat-label>
+            <input type="time" matInput required [(ngModel)]="appointment.endTime" id="endTime" name="endTime" ngModel
+                #endTimeField="ngModel"
+                (change) = checkTimeValidity($event,appointment.startTime)>
+            <mat-error *ngIf="!endTimeField.valid && !endTimeField.dirty && endTimeField.touched">
+                Appointment End Time is <strong>required</strong>
+            </mat-error>
+            
+            <mat-error *ngIf="!validDate">
+                Appointment End Time should be greater than start date
+            </mat-error>
+        </mat-form-field>
 
-            <button mat-raised-button color="warn" [routerLink]="['/member/home']">Back</button> &nbsp;
-            <button mat-raised-button color="primary" >Book
-                </button>
+        <mat-form-field appearance="fill">
+            <mat-label>Appointment Type</mat-label>
+            <mat-select [(ngModel)]="appointment.appointmentType" name="appointmentType" required
+                #appointmentTypeField="ngModel" color="primary">
+                <mat-option *ngFor="let type of appointmentType" [value]="type">
+                    {{type}}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="!appointmentTypeField.valid && appointmentTypeField.touched">
+                Appointment Type is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Time Zone</mat-label>
+            <mat-select [(ngModel)]="appointment.timezone" name="timezone" required #tzoneField="ngModel"
+                color="primary">
+                <mat-option *ngFor="let zone of timezones" [value]="zone">
+                    {{zone}}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="!tzoneField.valid && tzoneField.touched">
+                Time Zone is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Comments</mat-label>
+            <textarea matInput required type="text" matInput required [(ngModel)]="appointment.comments" id="comments"
+                name="comments" ngModel #commentsField="ngModel"></textarea>
+            <mat-error *ngIf="!commentsField.valid && !commentsField.dirty && commentsField.touched">
+                Comment is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+
+        <button mat-raised-button color="accent" [routerLink]="['/member/home']">Home</button> &nbsp;
+        <button mat-raised-button color="primary">Book
+        </button>
     </form>
-  <div>
+    <div>
