@@ -4,7 +4,7 @@ import  { MatDatepickerInputEvent} from '@angular/material/datepicker'
 import * as moment from 'moment';
 import { Country } from 'src/app/model/country';
 import { State } from 'src/app/model/state';
-import { AuthService } from 'src/app/sevice/auth.service';
+import { AuthService } from 'src/app/service/auth.service';
 import { Router } from '@angular/router';
 
 @Component({

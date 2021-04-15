@@ -24,5 +24,8 @@ export class AuthService {
     return this.httpClient.post(url,user, {observe:'response'});
   }
 
+  loggedIn () {
+    return !!localStorage.getItem("token");
+  }
   
 }

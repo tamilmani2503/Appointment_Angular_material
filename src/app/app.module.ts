@@ -23,10 +23,11 @@ import { RegistrationComponent } from './login/registration/registration.compone
 import { AppointmentsComponent } from './appointments/appointments.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AddAppointmentsComponent } from './appointments/add-appointments/add-appointments.component';
-import { AuthService } from './sevice/auth.service';
+import { AuthService } from './service/auth.service';
 import { AppointmentService } from './service/appointment.service';
 import { AlertComponent } from './shared/alert/alert.component';
 import { PlaceholderDirective } from './shared/placeholder.directive';
+import { AuthGuard } from './auth.guard';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { PlaceholderDirective } from './shared/placeholder.directive';
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'en-GB'},
     AuthService,
-    AppointmentService
+    AppointmentService,
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })
