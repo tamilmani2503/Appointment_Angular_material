@@ -38,7 +38,7 @@
         <br /><br />
         <mat-form-field>
             <mat-label>Appointment Start Time</mat-label>
-            <input type="time" matInput required [(ngModel)]="appointment.startTime" id="startTime" name="startTime" ngModel
+            <input  matInput required [(ngModel)]="appointment.startTime" id="startTime" name="startTime" ngModel
                 #startTimeField="ngModel">
             <mat-error *ngIf="!startTimeField.valid && !startTimeField.dirty && startTimeField.touched">
                 Appointment Start Time is <strong>required</strong>
@@ -47,16 +47,13 @@
 
         <mat-form-field>
             <mat-label>Appointment End Time</mat-label>
-            <input type="time" matInput required [(ngModel)]="appointment.endTime" id="endTime" name="endTime" ngModel
+            <input  matInput required [(ngModel)]="appointment.endTime" id="endTime" name="endTime" ngModel
                 #endTimeField="ngModel"
-                (change) = checkTimeValidity($event,appointment.startTime)>
+                (click) = checkTimeValidity($event,appointment.startTime)>
             <mat-error *ngIf="!endTimeField.valid && !endTimeField.dirty && endTimeField.touched">
                 Appointment End Time is <strong>required</strong>
-            </mat-error>
+            </mat-error>       
             
-            <mat-error *ngIf="!validDate">
-                Appointment End Time should be greater than start date
-            </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="fill">

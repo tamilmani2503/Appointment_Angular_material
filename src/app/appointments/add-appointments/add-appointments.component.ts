@@ -47,9 +47,8 @@ export class AddAppointmentsComponent implements OnInit,OnDestroy {
     this.successmessage = '';
   }
 
-  checkTimeValidity(event:Event, startTime:any) {
-    console.log((<HTMLInputElement>event.target).value);
-    this.validDate = checkTime(startTime, (<HTMLInputElement>event.target).value);
+  checkTimeValidity(event:Event, startTime:any) {   
+    checkTime(startTime, (<HTMLInputElement>event.target).value);
   }
 
    private showSuccessAlert(successmessage:string) {
